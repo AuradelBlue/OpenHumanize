@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Processing App</title>
+</head>
+<body>
+    <h1>Text Processing with spaCy</h1>
+    <form action="/process" method="post">
+        <textarea name="text" rows="4" cols="50" placeholder="Enter text here..."></textarea><br>
+        <button type="submit">Process Text</button>
+    </form>
+    {% if tokens %}
+        <h2>Processed Output:</h2>
+        <p>Original Text: {{ original_text }}</p>
+        <p>Tokens: {{ tokens }}</p>
+    {% endif %}
+</body>
+</html>

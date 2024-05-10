@@ -1,0 +1,4 @@
+Flask==3.0.3
+spaCy==3.7.4
+python-dotenv==1.0.1
+psutil==5.9.8
