@@ -4,17 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text Processing App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-    <h1>Text Processing with spaCy</h1>
-    <form action="/process" method="post">
-        <textarea name="text" rows="4" cols="50" placeholder="Enter text here..."></textarea><br>
-        <button type="submit">Process Text</button>
-    </form>
-    {% if tokens %}
-        <h2>Processed Output:</h2>
-        <p>Original Text: {{ original_text }}</p>
-        <p>Tokens: {{ tokens }}</p>
-    {% endif %}
+    <div class="container">
+        <h1 class="text-center my-4">Text Processing with spaCy</h1>
+        
+        <form action="/process" method="post">
+            <div class="form-group">
+                <textarea class="form-control" name="text" rows="4" placeholder="Enter text here..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Process Text</button>
+        </form>
+        
+        {% if tokens %}
+        <div class="mt-4">
+            <h2>Processed Output:</h2>
+            <p>Original Text: {{ original_text }}</p>
+            <p>Tokens: {{ tokens }}</p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
