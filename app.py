@@ -9,7 +9,7 @@ try:
     install_spacy_model()  # Ensure the model is installed
     nlp_model = load_spacy_model() # Load the model
 except Exception as e:
-    app.logger.error(\"Failed to install or load spaCy model: {}\".format(e))
+    app.logger.error("Failed to install or load spaCy model: {}".format(e))
     # We could choose to halt the app or leave it running with limited functionality
     nlp_model = None
 
@@ -19,7 +19,7 @@ if nlp_model:
 else:
     @app.route('/')
     def error():
-        return jsonify({"error: \"The NPP model could not be loaded, please check the server logs for more details.\"}), 500
+        return jsonify({"error: \"The NPP model could not be loaded, please check the server logs for more details.\""}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
