@@ -3,30 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Processing App</title>
+    <title>Sentence Structure Visualization</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center my-4">Text Processing with spaCy</h1>
-        
-        <form action="/process" method="post">
+        <h1>Sentence Analysis</h1>
+        <form id="textForm">
             <div class="form-group">
                 <textarea class="form-control" name="text" rows="4" placeholder="Enter text here..."></textarea>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">Process Text</button>
+            <button type="submit" class="btn btn-primary">Analyze Text</button>
         </form>
-        
-        {% if tokens %}
-        <div class="mt-4">
-            <h2>Processed Output:</h2>
-            <p>Original Text: {{ original_text }}</p>
-            <p>Tokens: {{ tokens }}</p>
-        </div>
-        {% endif %}
+        <div id="sentenceList" class="mt-4"></div>  <!-- Changed from <ul> to <div> -->
     </div>
-    
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='SentenceTree.js') }}"></script>
 </body>
 </html>

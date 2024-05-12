@@ -1,17 +1,24 @@
-from flask import request, jsonify, render_template
+from flask import request, jsonify, Flask, render_template
 
-def configure_routes(app, nlp_model):
-    @app.route('/', methods=['GET'])
+def configure_routes(app, model):
+    global nlp
+    nlp = model  # Set the global nlp model
+
+    @app.route('/')
     def home():
-        """Renders the homepage with a form for text input."""
         return render_template('index.html')
 
-    @app.route('/process', methods=['POST'])
-    def process_text():
-        """Processes posted text and returns tokens as JSON and to the form."""
+    @app.route('/parse', methods=['POST'])
+    def parse_text():
         text = request.form['text']
-        if not text:
-            return jsonify({"error": "No text provided"}), 400
-        doc = nlp_model(text)
-        tokens = [token.text for token in doc]
-        return render_template('index.html', original_text=text, tokens=tokens)
+        doc = nlp(text)
+        return jsonify(build_simple_format(doc))
+
+    def build_simple_format(doc):
+        sentences = []
+        for sent in doc.sents:
+            sentence_details = {'text': sent.text, 'tokens': []}
+            for token in sent:
+                sentence_details['tokens'].append({"word": token.text, "dep": token.dep_, "pos": token.pos_})
+            sentences.append(sentence_details)
+        return sentences
