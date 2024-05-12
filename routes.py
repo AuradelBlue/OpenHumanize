@@ -1,4 +1,5 @@
-from flask import request, jsonify, Flask, render_template
+from flask import render_template, request, jsonify, Flask
+import spacy
 
 def configure_routes(app, model):
     global nlp
@@ -10,15 +11,29 @@ def configure_routes(app, model):
 
     @app.route('/parse', methods=['POST'])
     def parse_text():
-        text = request.form['text']
-        doc = nlp(text)
-        return jsonify(build_simple_format(doc))
+        # Get the block of text from form data
+        text = request.form['text']  # Assuming the form field is named 'text'
 
-    def build_simple_format(doc):
-        sentences = []
-        for sent in doc.sents:
-            sentence_details = {'text': sent.text, 'tokens': []}
-            for token in sent:
-                sentence_details['tokens'].append({"word": token.text, "dep": token.dep_, "pos": token.pos_})
-            sentences.append(sentence_details)
-        return sentences
+        # Parse the block of text into a document
+        doc = nlp(text)
+
+        # Split the document into sentences
+        sentences = list(doc.sents)
+
+        # Function to build the parse tree for each sentence
+        def build_parse_tree(token, level=0):
+            indent = "  " * level  # Create indentation
+            subtree = {"text": token.text, "dep": token.dep_, "children": []}
+            for child in token.children:
+                subtree['children'].append(build_parse_tree(child, level + 1))
+            return subtree
+
+        # Build and collect parse trees for each sentence
+        trees = []
+        for sentence in sentences:
+            root = [token for token in sentence if token.head == token][0]  # Find the root of the parse tree
+            tree = build_parse_tree(root)
+            trees.append(tree)
+
+        # Return the parse trees as JSON
+        return jsonify(trees)
