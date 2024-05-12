@@ -1,2 +1,2 @@
 # OpenHumanize
-An open source way to humanize text
+An open source way to humanize text simplified branch
